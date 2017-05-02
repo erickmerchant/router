@@ -1,0 +1,32 @@
+{
+  "name": "@erickmerchant/router",
+  "version": "1.0.0",
+  "description": "A module to do routing inside your components.",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "standard && tape 'test.js' | faucet",
+    "cover": "nyc --reporter=html npm test",
+    "build": "babel --presets es2015 main.js -d dist/",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erickmerchant/router.git"
+  },
+  "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erickmerchant/router/issues"
+  },
+  "homepage": "https://github.com/erickmerchant/router#readme",
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "faucet": "0.0.1",
+    "mockery": "^2.0.0",
+    "nyc": "^10.0.0",
+    "standard": "^10.0.0",
+    "tape": "^4.6.0"
+  },
+  "dependencies": {}
+}
