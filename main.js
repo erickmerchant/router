@@ -1,5 +1,5 @@
 module.exports = function () {
-  const cache = new Map()
+  const cache = {}
 
   return {route, link}
 
@@ -41,12 +41,12 @@ module.exports = function () {
 
     let compiled
 
-    if (cache.has(path)) {
-      compiled = cache.get(path)
+    if (cache[path] != null) {
+      compiled = cache[path]
     } else {
       compiled = compile(path)
 
-      cache.set(path, compiled)
+      cache[path] = compiled
     }
 
     return compiled
@@ -55,7 +55,7 @@ module.exports = function () {
 
 function compile (path) {
   let parts = path.split('/').map((part) => {
-    if (part.startsWith(':')) {
+    if (part.indexOf(':') === 0) {
       return {
         match: '*',
         key: part.substr(1)
@@ -113,11 +113,11 @@ function compile (path) {
 }
 
 function trim (str = '') {
-  if (str.startsWith('/')) {
+  if (str.indexOf('/') === 0) {
     str = str.substring(1)
   }
 
-  if (str.endsWith('/')) {
+  if (str.indexOf('/', str.length - 1) >= 0) {
     str = str.substring(0, str.length - 1)
   }
 
