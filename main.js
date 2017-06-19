@@ -33,12 +33,10 @@ module.exports = function () {
   }
 
   function link (path, obj) {
-    return '/' + get(path).reverse(obj)
+    return get(path).reverse(obj)
   }
 
   function get (path) {
-    path = trim(path)
-
     let compiled
 
     if (cache[path] != null) {
@@ -70,7 +68,7 @@ function compile (path) {
   return {match, reverse}
 
   function match (path) {
-    path = trim(path).split('/')
+    path = path.split('/')
 
     if (path.length !== parts.length) {
       return null
@@ -110,16 +108,4 @@ function compile (path) {
 
     return path.join('/')
   }
-}
-
-function trim (str = '') {
-  if (str.indexOf('/') === 0) {
-    str = str.substring(1)
-  }
-
-  if (str.indexOf('/', str.length - 1) >= 0) {
-    str = str.substring(0, str.length - 1)
-  }
-
-  return str
 }

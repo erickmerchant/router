@@ -77,7 +77,7 @@ Returns a string to be used as say the href on an anchor.
 
 _path_
 
-A string. It can contain multiple segments separated by slashes. Slashes and the beginning and end are trimmed off. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component).
+A string. It can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component).
 
 ### component
 
