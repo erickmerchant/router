@@ -28,6 +28,12 @@ test('test main - route', function (t) {
   const { route } = require('./main')()
 
   const config = (on) => {
+    on('/foo/:test', (params) => {
+      t.notOk(true)
+
+      return `testing ${params.test}`
+    })
+
     on('/test/:test', (params) => {
       t.ok(true)
 

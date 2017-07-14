@@ -4,25 +4,25 @@ module.exports = function () {
   return {route, link}
 
   function route (subj, config) {
-    const pathes = []
     let defaultComponent
+    let result
 
     config((path, component) => {
-      if (component != null) {
-        pathes.push([get(path), component])
-      } else {
-        defaultComponent = path
+      if (!result) {
+        if (component != null) {
+          let params = get(path).match(subj)
+
+          if (params) {
+            result = component(params)
+          }
+        } else {
+          defaultComponent = path
+        }
       }
     })
 
-    for (let i = 0; i < pathes.length; i++) {
-      let [compiled, component] = pathes[i]
-
-      const params = compiled.match(subj)
-
-      if (params) {
-        return component(params)
-      }
+    if (result) {
+      return result
     }
 
     if (defaultComponent != null) {
