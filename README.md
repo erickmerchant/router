@@ -50,9 +50,9 @@ Returns {route, link}. See [route](#route) and [link](#link)
 
 ### route
 
-_route(argument, (on) => { ... })_
+_route(prop, (on) => { ... })_
 
-- argument: A string. What to try to match paths against.
+- prop: A string. What to try to match paths against.
 - [on](#on)
 
 Returns the returned value of calling the component for the matching path.
@@ -84,5 +84,3 @@ A string. It can contain multiple segments separated by slashes. Segments can be
 _component((params) { ... })_
 
 - params: An object populated from colon prefixed segments in the route.
-
-It should return html.
