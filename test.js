@@ -27,14 +27,14 @@ test('test main - route', function (t) {
 
   const { route } = require('./main')()
 
-  const config = (on) => {
-    on('/foo/:test', (params) => {
+  const config = function (on) {
+    on('/foo/:test', function (params) {
       t.notOk(true)
 
       return `testing ${params.test}`
     })
 
-    on('/test/:test', (params) => {
+    on('/test/:test', function (params) {
       t.ok(true)
 
       return `testing ${params.test}`
@@ -53,7 +53,7 @@ test('test main - route throws', function (t) {
 
   const { route } = require('./main')()
 
-  const config = (on) => {
+  const config = function (on) {
     on('/abc', () => {})
   }
 

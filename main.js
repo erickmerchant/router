@@ -7,7 +7,7 @@ module.exports = function () {
     let defaultComponent
     let result
 
-    config((path, component) => {
+    config(function (path, component) {
       if (!result) {
         if (component != null) {
           let params = get(path).match(subj)
@@ -52,7 +52,7 @@ module.exports = function () {
 }
 
 function compile (path) {
-  let parts = path.split('/').map((part) => {
+  let parts = path.split('/').map(function (part) {
     if (part.indexOf(':') === 0) {
       return {
         match: '*',
