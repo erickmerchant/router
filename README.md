@@ -7,14 +7,14 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 
 const framework = require('@erickmerchant/framework')
 const {route, link} = require('@erickmerchant/router')()
-const html = require('yo-yo')
+const html = require('nanohtml')
 const store = require('./store.js')
 const diff = html.update
 const target = document.querySelector('main')
 const createHistory = require('history').createBrowserHistory
 const history = createHistory()
 
-framework({target, store, component, diff})(({dispatch}) {
+framework({target, store, component, diff})(function ({dispatch}) {
   history.listen(function (location) {
     dispatch('location', location.pathname)
   })
