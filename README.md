@@ -8,8 +8,8 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 const framework = require('@erickmerchant/framework')
 const {route, link} = require('@erickmerchant/router')()
 const html = require('nanohtml')
+const diff = require('nanomorph')
 const store = require('./store.js')
-const diff = html.update
 const target = document.querySelector('main')
 const createHistory = require('history').createBrowserHistory
 const history = createHistory()
