@@ -1,3 +1,5 @@
+const assert = require('assert')
+
 module.exports = function () {
   const cache = {}
 
@@ -29,7 +31,7 @@ module.exports = function () {
       return defaultComponent()
     }
 
-    throw new Error('no component found')
+    assert.ok(false, 'no component found')
   }
 
   function link (path, obj) {
@@ -54,13 +56,43 @@ module.exports = function () {
 function compile (path) {
   let parts = path.split('/').map(function (part) {
     if (part.indexOf(':') === 0) {
-      return {
-        match: '*',
-        key: part.substr(1)
+      switch (part.substr(-1)) {
+        case '*':
+          return {
+            variable: true,
+            required: false,
+            multiple: true,
+            key: part.substring(1, part.length - 1)
+          }
+
+        case '+':
+          return {
+            variable: true,
+            required: true,
+            multiple: true,
+            key: part.substring(1, part.length - 1)
+          }
+
+        case '?':
+          return {
+            variable: true,
+            required: false,
+            multiple: false,
+            key: part.substring(1, part.length - 1)
+          }
+
+        default:
+          return {
+            variable: true,
+            required: true,
+            multiple: false,
+            key: part.substr(1)
+          }
       }
     }
 
     return {
+      variable: false,
       match: part
     }
   })
@@ -70,20 +102,26 @@ function compile (path) {
   function match (path) {
     path = path.split('/')
 
-    if (path.length !== parts.length) {
-      return null
-    }
-
     let params = {}
 
     for (let i = 0; i < parts.length; i++) {
       let part = parts[i]
 
-      if (part.match === '*') {
-        params[part.key] = path[i]
-      } else if (part.match !== path[i]) {
+      if (part.variable === true) {
+        if (path[0] == null && part.required) return null
+
+        const remainder = parts.length - i - 1
+
+        params[part.key] = part.multiple ? path.splice(0, path.length - remainder) : path.shift()
+      } else if (part.match === path[0]) {
+        path.shift()
+      } else {
         return null
       }
+    }
+
+    if (path.length) {
+      return null
     }
 
     return params
@@ -95,12 +133,20 @@ function compile (path) {
     for (let i = 0; i < parts.length; i++) {
       let part = parts[i]
 
-      if (part.match === '*') {
-        if (obj[part.key] == null) {
-          throw new Error(part.key + ' is null or undefined')
-        }
+      if (part.variable === true) {
+        assert.ok(obj[part.key] != null || !part.required, part.key + ' is null or undefined and required')
 
-        path.push(String(obj[part.key]))
+        if (obj[part.key] != null) {
+          if (part.multiple) {
+            assert.ok(Array.isArray(obj[part.key]), part.key + ' is not an array')
+
+            path.push(obj[part.key].map((val) => String(val)).join('/'))
+          } else {
+            assert.ok(!Array.isArray(obj[part.key]), part.key + ' is an array')
+
+            path.push(String(obj[part.key]))
+          }
+        }
       } else {
         path.push(part.match)
       }

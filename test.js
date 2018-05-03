@@ -1,7 +1,7 @@
 const test = require('tape')
 
 test('test main - link', function (t) {
-  t.plan(4)
+  t.plan(6)
 
   const { link } = require('./main')()
 
@@ -12,40 +12,56 @@ test('test main - link', function (t) {
   t.equals(link('tests/:test/', { test: 123 }), 'tests/123/')
 
   t.equals(link('/tests/:test/', { test: 123 }), '/tests/123/')
+
+  t.equals(link('tests/:foo/:bar*', { foo: 123, bar: ['a', 'b', 'c'] }), 'tests/123/a/b/c')
+
+  t.equals(link('tests/:foo?/:bar+', { foo: 123, bar: ['a', 'b', 'c'] }), 'tests/123/a/b/c')
 })
 
 test('test main - link throws', function (t) {
-  t.plan(1)
+  t.plan(3)
 
   const { link } = require('./main')()
 
   t.throws(() => link('tests/:test', { abc: 123 }), /test is null or undefined/)
+
+  t.throws(() => link('tests/:test*', { test: 123 }), /test is not an array/)
+
+  t.throws(() => link('tests/:test', { test: [1, 2, 3] }), /test is an array/)
 })
 
 test('test main - route', function (t) {
-  t.plan(3)
+  t.plan(6)
 
   const { route } = require('./main')()
 
   const config = function (on) {
-    on('/foo/:test', function (params) {
-      t.notOk(true)
-
-      return `testing ${params.test}`
+    on('/test1/:foo/:bar*', function (params) {
+      return params
     })
 
-    on('/test/:test', function (params) {
-      t.ok(true)
+    on('/test2/:foo?/:bar+', function (params) {
+      return params
+    })
 
-      return `testing ${params.test}`
+    on('/test3/:foo', function (params) {
+      return params
     })
 
     on(() => 'not found')
   }
 
-  t.equals(route('/test/123', config), 'testing 123')
+  t.deepEquals(route('/test1/123', config), { foo: '123', bar: [] })
 
-  t.equals(route('/test', config), 'not found')
+  t.deepEquals(route('/test1/123/a/b/c', config), { foo: '123', bar: ['a', 'b', 'c'] })
+
+  t.deepEquals(route('/test2/123/a', config), { foo: '123', bar: ['a'] })
+
+  t.deepEquals(route('/test2/123/a/b/c', config), { foo: '123', bar: ['a', 'b', 'c'] })
+
+  t.equals(route('/test3/x/y', config), 'not found')
+
+  t.equals(route('/test3', config), 'not found')
 })
 
 test('test main - route throws', function (t) {
