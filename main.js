@@ -110,9 +110,23 @@ function compile (path) {
       if (part.variable === true) {
         if (path[0] == null && part.required) return null
 
-        const remainder = parts.length - i - 1
+        const remainder = parts.slice(i + 1).filter((p) => !p.variable || p.required).length
 
-        params[part.key] = part.multiple ? path.splice(0, path.length - remainder) : path.shift()
+        let deleteCount = (path.length - remainder)
+
+        if (!deleteCount && part.required) {
+          deleteCount = 1
+        }
+
+        if (deleteCount > 1 && !part.multiple) {
+          deleteCount = 1
+        }
+
+        params[part.key] = path.splice(0, deleteCount)
+
+        if (!part.multiple) {
+          params[part.key] = params[part.key][0] || undefined
+        }
       } else if (part.match === path[0]) {
         path.shift()
       } else {
@@ -129,6 +143,7 @@ function compile (path) {
 
   function reverse (obj) {
     let path = []
+    let multiple = false
 
     for (let i = 0; i < parts.length; i++) {
       let part = parts[i]
@@ -140,8 +155,22 @@ function compile (path) {
           if (part.multiple) {
             assert.ok(Array.isArray(obj[part.key]), part.key + ' is not an array')
 
-            path.push(obj[part.key].map((val) => String(val)).join('/'))
-          } else {
+            if (part.required) {
+              assert.ok(obj[part.key].length > 0, part.key + ' is an empty array')
+            }
+
+            if (multiple && part.required) {
+              path.push(String(obj[part.key][0]))
+            } else if (!multiple) {
+              let val = obj[part.key].map((val) => String(val)).join('/')
+
+              if (val) {
+                path.push(val)
+              }
+            }
+
+            multiple = true
+          } else if (part.required || !multiple) {
             assert.ok(!Array.isArray(obj[part.key]), part.key + ' is an array')
 
             path.push(String(obj[part.key]))
