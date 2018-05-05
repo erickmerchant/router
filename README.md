@@ -79,12 +79,12 @@ _path_
 
 A string. It can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component). Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
 
-| required | multiple
----|---|---
-:example | true | false
-:example* | false | true
-:example+ | true | true
-:example? | false | false
+|| required | multiple
+|---|---|---
+|:example | true | false
+|:example* | false | true
+|:example+ | true | true
+|:example? | false | false
 
 ### component
 
