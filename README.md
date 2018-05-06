@@ -1,28 +1,14 @@
 # @erickmerchant/router
 
-A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). It does not provide history api listening and dispatching. For that you'll have to use something like [history](https://npmjs.com/package/history), illustrated in the example below. It simply is a tool to use in your components to route based on a prop in your state.
+A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). It does not provide history api listening and dispatching. For that you'll have to use something like [history](https://npmjs.com/package/history).
 
 ``` javascript
-/* an example */
+/* component.js */
 
-const framework = require('@erickmerchant/framework')
 const {route, link} = require('@erickmerchant/router')()
 const html = require('nanohtml')
-const diff = require('nanomorph')
-const store = require('./store.js')
-const target = document.querySelector('main')
-const createHistory = require('history').createBrowserHistory
-const history = createHistory()
 
-framework({target, store, component, diff})(function ({dispatch}) {
-  history.listen(function (location) {
-    dispatch('location', location.pathname)
-  })
-
-  dispatch('location', history.location.pathname)
-})
-
-function component () {
+module.exports = function () {
   return html`
   <body>
     ${route(state.location, (on) => {
