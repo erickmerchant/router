@@ -3,7 +3,7 @@ const assert = require('assert')
 module.exports = function () {
   const cache = {}
 
-  return {route, link}
+  return { route, link }
 
   function route (subj, config) {
     let defaultComponent
@@ -97,7 +97,7 @@ function compile (path) {
     }
   })
 
-  return {match, reverse}
+  return { match, reverse }
 
   function match (path) {
     path = path.split('/')
