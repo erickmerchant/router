@@ -1,6 +1,6 @@
 const test = require('tape')
 
-test('test main - link', function (t) {
+test('test main - link', (t) => {
   t.plan(6)
 
   const { link } = require('./main')()
@@ -18,7 +18,7 @@ test('test main - link', function (t) {
   t.equals(link('tests/:foo?/:bar+', { foo: 123, bar: ['a', 'b', 'c'] }), 'tests/123/a/b/c')
 })
 
-test('test main - link throws', function (t) {
+test('test main - link throws', (t) => {
   t.plan(4)
 
   const { link } = require('./main')()
@@ -32,12 +32,12 @@ test('test main - link throws', function (t) {
   t.throws(() => link('tests/:test+', { test: [] }), /test is an empty array/)
 })
 
-test('test main - route', function (t) {
+test('test main - route', (t) => {
   t.plan(7)
 
   const { route } = require('./main')()
 
-  const config = function (on) {
+  const config = (on) => {
     on('/test1/:foo/:bar*', component)
 
     on('/test2/:foo?/:bar+', component)
@@ -64,24 +64,24 @@ test('test main - route', function (t) {
   t.equals(route('/test3', config), 'not found')
 })
 
-test('test main - route throws', function (t) {
+test('test main - route throws', (t) => {
   t.plan(1)
 
   const { route } = require('./main')()
 
-  const config = function (on) {
+  const config = (on) => {
     on('/abc', () => {})
   }
 
   t.throws(() => route('/test', config), /no component found/)
 })
 
-test('test main - link to route', function (t) {
+test('test main - link to route', (t) => {
   t.plan(26)
 
   const { link, route } = require('./main')()
 
-  const config = function (on) {
+  const config = (on) => {
     on('test1/:foo/:bar*', component)
 
     on('test2/:foo/:bar+', component)

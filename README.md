@@ -8,7 +8,7 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 const {route, link} = require('@erickmerchant/router')()
 const html = require('nanohtml')
 
-module.exports = function () {
+module.exports = () => {
   return html`
   <body>
     ${route(state.location, (on) => {

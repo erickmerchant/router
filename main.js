@@ -1,6 +1,6 @@
 const assert = require('assert')
 
-module.exports = function () {
+module.exports = () => {
   const cache = {}
 
   return { route, link }
@@ -9,7 +9,7 @@ module.exports = function () {
     let defaultComponent
     let result
 
-    config(function (path, component) {
+    config((path, component) => {
       if (!result) {
         if (component != null) {
           let params = get(path).match(subj)
@@ -54,7 +54,7 @@ module.exports = function () {
 }
 
 function compile (path) {
-  let parts = path.split('/').map(function (part) {
+  let parts = path.split('/').map((part) => {
     if (part.indexOf(':') === 0) {
       switch (part.substr(-1)) {
         case '*':
