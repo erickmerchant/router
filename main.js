@@ -12,7 +12,7 @@ module.exports = () => {
     config((path, component) => {
       if (!result) {
         if (component != null) {
-          let params = get(path).match(subj)
+          const params = get(path).match(subj)
 
           if (params) {
             result = component(params)
@@ -54,7 +54,7 @@ module.exports = () => {
 }
 
 function compile (path) {
-  let parts = path.split('/').map((part) => {
+  const parts = path.split('/').map((part) => {
     if (part.indexOf(':') === 0) {
       switch (part.substr(-1)) {
         case '*':
@@ -102,10 +102,10 @@ function compile (path) {
   function match (path) {
     path = path.split('/')
 
-    let params = {}
+    const params = {}
 
     for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
+      const part = parts[i]
 
       if (part.variable === true) {
         if (path[0] == null && part.required) return null
@@ -142,42 +142,40 @@ function compile (path) {
   }
 
   function reverse (obj) {
-    let path = []
+    const path = []
     let multiple = false
 
     for (let i = 0; i < parts.length; i++) {
-      let part = parts[i]
+      const part = parts[i]
 
-      if (part.variable === true) {
-        assert.ok(obj[part.key] != null || !part.required, part.key + ' is null or undefined and required')
-
-        if (obj[part.key] != null) {
-          if (part.multiple) {
-            assert.ok(Array.isArray(obj[part.key]), part.key + ' is not an array')
-
-            if (part.required) {
-              assert.ok(obj[part.key].length > 0, part.key + ' is an empty array')
-            }
-
-            if (multiple && part.required) {
-              path.push(String(obj[part.key][0]))
-            } else if (!multiple) {
-              let val = obj[part.key].map((val) => String(val)).join('/')
-
-              if (val) {
-                path.push(val)
-              }
-            }
-
-            multiple = true
-          } else if (part.required || !multiple) {
-            assert.ok(!Array.isArray(obj[part.key]), part.key + ' is an array')
-
-            path.push(String(obj[part.key]))
-          }
-        }
-      } else {
+      if (part.variable !== true) {
         path.push(part.match)
+
+        continue
+      }
+
+      assert.ok(obj[part.key] != null || !part.required, part.key + ' is null or undefined and required')
+
+      if (obj[part.key] != null) {
+        if (part.multiple) {
+          assert.ok(Array.isArray(obj[part.key]), part.key + ' is not an array')
+
+          if (part.required) {
+            assert.ok(obj[part.key].length > 0, part.key + ' is an empty array')
+          }
+
+          if (multiple && part.required) {
+            path.push(String(obj[part.key][0]))
+          } else if (!multiple && obj[part.key].length) {
+            path.push(obj[part.key].map((val) => String(val)).join('/'))
+          }
+
+          multiple = true
+        } else if (part.required || !multiple) {
+          assert.ok(!Array.isArray(obj[part.key]), part.key + ' is an array')
+
+          path.push(String(obj[part.key]))
+        }
       }
     }
 

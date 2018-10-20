@@ -42,7 +42,7 @@ test('test main - route', (t) => {
 
     on('/test2/:foo?/:bar+', component)
 
-    on('/test3/literal', () => 'literal')
+    on('/test3/baz', () => 'baz')
 
     on('/test3/:foo', component)
 
@@ -57,7 +57,7 @@ test('test main - route', (t) => {
 
   t.deepEquals(route('/test2/123/a/b/c', config), { foo: '123', bar: ['a', 'b', 'c'] })
 
-  t.equals(route('/test3/literal', config), 'literal')
+  t.equals(route('/test3/baz', config), 'baz')
 
   t.equals(route('/test3/x/y', config), 'not found')
 
@@ -106,13 +106,13 @@ test('test main - link to route', (t) => {
 
     on('test12/:foo?/:bar+', component)
 
-    on('test13/:foo/literal', component)
+    on('test13/:foo/baz', component)
 
-    on('test14/:foo?/literal', component)
+    on('test14/:foo?/baz', component)
 
-    on('test15/:foo*/literal', component)
+    on('test15/:foo*/baz', component)
 
-    on('test16/:foo+/literal', component)
+    on('test16/:foo+/baz', component)
   }
 
   t.deepEquals(route(link('test1/:foo/:bar*', { foo: '123', bar: ['a', 'b', 'c'] }), config), { foo: '123', bar: ['a', 'b', 'c'] })
@@ -155,17 +155,17 @@ test('test main - link to route', (t) => {
 
   t.deepEquals(route(link('test12/:foo?/:bar+', { foo: undefined, bar: ['a'] }), config), { foo: undefined, bar: ['a'] })
 
-  t.deepEquals(route(link('test13/:foo/literal', { foo: '123' }), config), { foo: '123' })
+  t.deepEquals(route(link('test13/:foo/baz', { foo: '123' }), config), { foo: '123' })
 
-  t.deepEquals(route(link('test14/:foo?/literal', { foo: undefined }), config), { foo: undefined })
+  t.deepEquals(route(link('test14/:foo?/baz', { foo: undefined }), config), { foo: undefined })
 
-  t.deepEquals(route(link('test14/:foo?/literal', { foo: '123' }), config), { foo: '123' })
+  t.deepEquals(route(link('test14/:foo?/baz', { foo: '123' }), config), { foo: '123' })
 
-  t.deepEquals(route(link('test15/:foo*/literal', { foo: ['a', 'b', 'c'] }), config), { foo: ['a', 'b', 'c'] })
+  t.deepEquals(route(link('test15/:foo*/baz', { foo: ['a', 'b', 'c'] }), config), { foo: ['a', 'b', 'c'] })
 
-  t.deepEquals(route(link('test15/:foo*/literal', { foo: [] }), config), { foo: [] })
+  t.deepEquals(route(link('test15/:foo*/baz', { foo: [] }), config), { foo: [] })
 
-  t.deepEquals(route(link('test16/:foo+/literal', { foo: ['a', 'b', 'c'] }), config), { foo: ['a', 'b', 'c'] })
+  t.deepEquals(route(link('test16/:foo+/baz', { foo: ['a', 'b', 'c'] }), config), { foo: ['a', 'b', 'c'] })
 })
 
 function component (params) {
