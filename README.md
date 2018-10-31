@@ -6,64 +6,24 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 /* component.js */
 
 const {route, link} = require('@erickmerchant/router')()
-const html = require('nanohtml')
+const {body, h1, a} = require('@erickmerchant/framework/html')
 
 module.exports = () => {
-  return html`
-  <body>
-    ${route(state.location, (on) => {
-      on('page/a', () => html`<h1><a href="${link('page/:id', {id: 'a'})}">Page A</a></h1>`)
+  return body(
+    route(state.location, (on) => {
+      on('page/a', () => h1(a({href: link('page/:id', {id: 'a'})}, 'Page A')))
 
-      on('page/b', () => html`<h1><a href="${link('page/:id', {id: 'b'})}">Page B</a></h1>`)
+      on('page/b', () => h1(a({href: link('page/:id', {id: 'b'})}, 'Page B')))
 
-      on('page/:id', (params) => html`<h1><a href="${link('page/:id', {id: params.id})}">Page ${params.id}</a></h1>`)
+      on('page/:id', (params) => h1(a({href: link('page/:id', {id: params.id})}, `Page ${params.id}`)))
 
-      on(() => html`<h1>Page Not Found</h1>`)
-    })}
-  </body>`
+      on(() => h1('Page Not Found'))
+    })
+  )
 }
 ```
 
-## API Reference
-
-### main
-
-_main()_
-
-The function exported by this module. Call it to get a new router.
-
-Returns {route, link}. See [route](#route) and [link](#link)
-
-### route
-
-_route(prop, (on) => { ... })_
-
-- prop: A string. What to try to match paths against.
-- [on](#on)
-
-Returns the returned value of calling the component for the matching path.
-
-### on
-
-_on(path, component)_
-
-- [path](#path)
-- [component](#component)
-
-### link
-
-_link(path, object)_
-
-- [path](#path)
-- object: Props in the object are matched up to the colon prefixed segments in the path.
-
-Returns a string to be used as say the href on an anchor.
-
-### path
-
-_path_
-
-A string. It can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component). Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
+A route can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component). Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
 
 || required | multiple
 |---|---|---
@@ -71,9 +31,3 @@ A string. It can contain multiple segments separated by slashes. Segments can be
 |:example* | false | true
 |:example+ | true | true
 |:example? | false | false
-
-### component
-
-_component((params) { ... })_
-
-- params: An object populated from colon prefixed segments in the route.
