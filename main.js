@@ -9,16 +9,18 @@ module.exports = () => {
     let defaultComponent
     let result
 
-    config((path, component) => {
-      if (!result) {
-        if (component != null) {
-          const params = get(path).match(subj)
+    config((paths, component) => {
+      for (const path of [].concat(paths)) {
+        if (!result) {
+          if (component != null) {
+            const params = get(path).match(subj)
 
-          if (params) {
-            result = component(params)
+            if (params) {
+              result = component(params)
+            }
+          } else {
+            defaultComponent = path
           }
-        } else {
-          defaultComponent = path
         }
       }
     })

@@ -33,7 +33,7 @@ test('test main - link throws', (t) => {
 })
 
 test('test main - route', (t) => {
-  t.plan(7)
+  t.plan(8)
 
   const { route } = require('./main')()
 
@@ -42,7 +42,7 @@ test('test main - route', (t) => {
 
     on('/test2/:foo?/:bar+', component)
 
-    on('/test3/baz', () => 'baz')
+    on(['/test3/baz', '/test3/qux'], () => 'baz or qux')
 
     on('/test3/:foo', component)
 
@@ -57,7 +57,9 @@ test('test main - route', (t) => {
 
   t.deepEquals(route('/test2/123/a/b/c', config), { foo: '123', bar: ['a', 'b', 'c'] })
 
-  t.equals(route('/test3/baz', config), 'baz')
+  t.equals(route('/test3/baz', config), 'baz or qux')
+
+  t.equals(route('/test3/qux', config), 'baz or qux')
 
   t.equals(route('/test3/x/y', config), 'not found')
 
