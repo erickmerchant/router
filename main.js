@@ -10,17 +10,17 @@ module.exports = () => {
     let result
 
     config((paths, component) => {
-      for (const path of [].concat(paths)) {
-        if (!result) {
-          if (component != null) {
+      if (!result) {
+        if (component != null) {
+          for (const path of [].concat(paths)) {
             const params = get(path).match(subj)
 
             if (params) {
               result = component(params)
             }
-          } else {
-            defaultComponent = path
           }
+        } else {
+          defaultComponent = paths
         }
       }
     })
