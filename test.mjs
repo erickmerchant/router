@@ -1,5 +1,5 @@
 import test from 'tape'
-import main from './main.mjs'
+import main from '.'
 
 test('test main - link', (t) => {
   t.plan(6)
