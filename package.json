@@ -1,10 +1,10 @@
 {
   "name": "@erickmerchant/router",
-  "version": "15.1.6",
+  "version": "15.1.7-1",
   "description": "A module to do routing inside your components.",
-  "main": "main.js",
+  "main": "main.mjs",
   "scripts": {
-    "test": "standard && tape test.js"
+    "test": "standard && node --experimental-modules test.mjs"
   },
   "repository": {
     "type": "git",

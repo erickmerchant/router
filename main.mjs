@@ -1,6 +1,4 @@
-const assert = require('assert')
-
-module.exports = () => {
+export default () => {
   const cache = {}
 
   return { route, link }
@@ -32,8 +30,6 @@ module.exports = () => {
     if (defaultComponent != null) {
       return defaultComponent()
     }
-
-    assert.ok(false, 'no component found')
   }
 
   function link (path, obj) {
@@ -156,27 +152,21 @@ function compile (path) {
         continue
       }
 
-      assert.ok(obj[part.key] != null || !part.required, part.key + ' is null or undefined and required')
-
       if (obj[part.key] != null) {
         if (part.multiple) {
-          assert.ok(Array.isArray(obj[part.key]), part.key + ' is not an array')
-
-          if (part.required) {
-            assert.ok(obj[part.key].length > 0, part.key + ' is an empty array')
-          }
-
           if (multiple && part.required) {
-            path.push(String(obj[part.key][0]))
+            if (obj[part.key].length > 0) {
+              path.push(String(obj[part.key][0]))
+            }
           } else if (!multiple && obj[part.key].length) {
             path.push(obj[part.key].map((val) => String(val)).join('/'))
           }
 
           multiple = true
         } else if (part.required || !multiple) {
-          assert.ok(!Array.isArray(obj[part.key]), part.key + ' is an array')
-
-          path.push(String(obj[part.key]))
+          if (!Array.isArray(obj[part.key])) {
+            path.push(String(obj[part.key]))
+          }
         }
       }
     }
