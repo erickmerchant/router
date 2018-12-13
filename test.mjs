@@ -19,6 +19,10 @@ test('test main - link', (t) => {
   t.equals(link('tests/:foo?/:bar+', { foo: 123, bar: ['a', 'b', 'c'] }), 'tests/123/a/b/c')
 })
 
+const component = (params) => {
+  return params
+}
+
 test('test main - route', (t) => {
   t.plan(8)
 
@@ -144,7 +148,3 @@ test('test main - link to route', (t) => {
 
   t.deepEquals(route(link('test16/:foo+/baz', { foo: ['a', 'b', 'c'] }), config), { foo: ['a', 'b', 'c'] })
 })
-
-function component (params) {
-  return params
-}

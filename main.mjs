@@ -1,57 +1,4 @@
-export default () => {
-  const cache = {}
-
-  return { route, link }
-
-  function route (subj, config) {
-    let defaultComponent
-    let result
-
-    config((paths, component) => {
-      if (!result) {
-        if (component != null) {
-          for (const path of [].concat(paths)) {
-            const params = get(path).match(subj)
-
-            if (params) {
-              result = component(params)
-            }
-          }
-        } else {
-          defaultComponent = paths
-        }
-      }
-    })
-
-    if (result) {
-      return result
-    }
-
-    if (defaultComponent != null) {
-      return defaultComponent()
-    }
-  }
-
-  function link (path, obj) {
-    return get(path).reverse(obj)
-  }
-
-  function get (path) {
-    let compiled
-
-    if (cache[path] != null) {
-      compiled = cache[path]
-    } else {
-      compiled = compile(path)
-
-      cache[path] = compiled
-    }
-
-    return compiled
-  }
-}
-
-function compile (path) {
+const compile = (path) => {
   const parts = path.split('/').map((part) => {
     if (part.indexOf(':') === 0) {
       switch (part.substr(-1)) {
@@ -95,9 +42,7 @@ function compile (path) {
     }
   })
 
-  return { match, reverse }
-
-  function match (path) {
+  const match = (path) => {
     path = path.split('/')
 
     const params = {}
@@ -139,7 +84,7 @@ function compile (path) {
     return params
   }
 
-  function reverse (obj) {
+  const reverse = (obj) => {
     const path = []
     let multiple = false
 
@@ -173,4 +118,59 @@ function compile (path) {
 
     return path.join('/')
   }
+
+  return { match, reverse }
+}
+
+export default () => {
+  const cache = {}
+
+  const route = (subj, config) => {
+    let defaultComponent
+    let result
+
+    config((paths, component) => {
+      if (!result) {
+        if (component != null) {
+          for (const path of [].concat(paths)) {
+            const params = get(path).match(subj)
+
+            if (params) {
+              result = component(params)
+            }
+          }
+        } else {
+          defaultComponent = paths
+        }
+      }
+    })
+
+    if (result) {
+      return result
+    }
+
+    if (defaultComponent != null) {
+      return defaultComponent()
+    }
+  }
+
+  const link = (path, obj) => {
+    return get(path).reverse(obj)
+  }
+
+  const get = (path) => {
+    let compiled
+
+    if (cache[path] != null) {
+      compiled = cache[path]
+    } else {
+      compiled = compile(path)
+
+      cache[path] = compiled
+    }
+
+    return compiled
+  }
+
+  return { route, link }
 }
