@@ -19,9 +19,7 @@ test('test main - link', (t) => {
   t.equals(link('tests/:foo?/:bar+', { foo: 123, bar: ['a', 'b', 'c'] }), 'tests/123/a/b/c')
 })
 
-const component = (params) => {
-  return params
-}
+const component = (params) => params
 
 test('test main - route', (t) => {
   t.plan(8)

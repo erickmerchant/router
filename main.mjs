@@ -55,7 +55,7 @@ const compile = (path) => {
 
         const remainder = parts.slice(i + 1).filter((p) => !p.variable || p.required).length
 
-        let deleteCount = (path.length - remainder)
+        let deleteCount = path.length - remainder
 
         if (!deleteCount && part.required) {
           deleteCount = 1
@@ -154,9 +154,7 @@ export default () => {
     }
   }
 
-  const link = (path, obj) => {
-    return get(path).reverse(obj)
-  }
+  const link = (path, obj) => get(path).reverse(obj)
 
   const get = (path) => {
     let compiled
