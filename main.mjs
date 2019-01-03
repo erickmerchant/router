@@ -119,7 +119,7 @@ const compile = (path) => {
     return path.join('/')
   }
 
-  return { match, reverse }
+  return {match, reverse}
 }
 
 export default () => {
@@ -170,5 +170,5 @@ export default () => {
     return compiled
   }
 
-  return { route, link }
+  return {route, link}
 }
