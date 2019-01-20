@@ -6,7 +6,7 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 /* component.js */
 
 const {route, link} = require('@erickmerchant/router')()
-const {body, h1, a} = require('@erickmerchant/framework/html')
+const {body, h1, a} = require('@erickmerchant/framework').html
 
 module.exports = () => {
   return body(

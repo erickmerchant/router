@@ -84,7 +84,7 @@ const compile = (path) => {
     return params
   }
 
-  const reverse = (obj) => {
+  const reverse = (params) => {
     const path = []
     let multiple = false
 
@@ -97,20 +97,20 @@ const compile = (path) => {
         continue
       }
 
-      if (obj[part.key] != null) {
+      if (params[part.key] != null) {
         if (part.multiple) {
           if (multiple && part.required) {
-            if (obj[part.key].length > 0) {
-              path.push(String(obj[part.key][0]))
+            if (params[part.key].length > 0) {
+              path.push(String(params[part.key][0]))
             }
-          } else if (!multiple && obj[part.key].length) {
-            path.push(obj[part.key].map((val) => String(val)).join('/'))
+          } else if (!multiple && params[part.key].length) {
+            path.push(params[part.key].map((val) => String(val)).join('/'))
           }
 
           multiple = true
         } else if (part.required || !multiple) {
-          if (!Array.isArray(obj[part.key])) {
-            path.push(String(obj[part.key]))
+          if (!Array.isArray(params[part.key])) {
+            path.push(String(params[part.key]))
           }
         }
       }
@@ -154,7 +154,7 @@ export default () => {
     }
   }
 
-  const link = (path, obj) => get(path).reverse(obj)
+  const link = (path, params) => get(path).reverse(params)
 
   const get = (path) => {
     let compiled
