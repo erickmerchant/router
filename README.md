@@ -5,8 +5,11 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 ``` javascript
 /* component.js */
 
-const {route, link} = require('@erickmerchant/router')()
-const {body, h1, a} = require('@erickmerchant/framework').html
+import router from '@erickmerchant/router'
+import {html} from '@erickmerchant/framework'
+
+const {body, h1, a} = html
+const {route, link} = router()
 
 module.exports = () => {
   return body(
