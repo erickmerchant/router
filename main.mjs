@@ -132,7 +132,10 @@ export default () => {
     config((paths, component) => {
       if (!result) {
         if (component != null) {
-          for (const path of [].concat(paths)) {
+          paths = [].concat(paths)
+
+          for (let i = 0; i < paths.length; i++) {
+            const path = paths[i]
             const params = get(path).match(subj)
 
             if (params) {
