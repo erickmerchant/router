@@ -1,26 +1,23 @@
 const compile = (path) => {
   const parts = path.split('/').map((part) => {
-    if (part.indexOf(':') === 0) {
-      switch (part.substr(-1)) {
-        case '*':
+    if (part.startsWith(':')) {
+      switch (true) {
+        case part.endsWith('*'):
           return {
-            variable: true,
             required: false,
             multiple: true,
             key: part.substring(1, part.length - 1)
           }
 
-        case '+':
+        case part.endsWith('+'):
           return {
-            variable: true,
             required: true,
             multiple: true,
             key: part.substring(1, part.length - 1)
           }
 
-        case '?':
+        case part.endsWith('?'):
           return {
-            variable: true,
             required: false,
             multiple: false,
             key: part.substring(1, part.length - 1)
@@ -28,17 +25,15 @@ const compile = (path) => {
 
         default:
           return {
-            variable: true,
             required: true,
             multiple: false,
-            key: part.substr(1)
+            key: part.substring(1)
           }
       }
     }
 
     return {
-      variable: false,
-      match: part
+      value: part
     }
   })
 
@@ -50,10 +45,18 @@ const compile = (path) => {
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i]
 
-      if (part.variable === true) {
+      if (part.value == null) {
         if (path[0] == null && part.required) return null
 
-        const remainder = parts.slice(i + 1).filter((p) => !p.variable || p.required).length
+        const remainder = parts.reduce((acc, p, j) => {
+          if (j > i) {
+            if (p.value != null || p.required) {
+              return acc + 1
+            }
+          }
+
+          return acc
+        }, 0)
 
         let deleteCount = path.length - remainder
 
@@ -68,9 +71,9 @@ const compile = (path) => {
         params[part.key] = path.splice(0, deleteCount)
 
         if (!part.multiple) {
-          params[part.key] = params[part.key][0] || undefined
+          params[part.key] = params[part.key][0]
         }
-      } else if (part.match === path[0]) {
+      } else if (part.value === path[0]) {
         path.shift()
       } else {
         return null
@@ -91,8 +94,8 @@ const compile = (path) => {
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i]
 
-      if (part.variable !== true) {
-        path.push(part.match)
+      if (part.value != null) {
+        path.push(part.value)
 
         continue
       }
@@ -132,14 +135,22 @@ export default () => {
     config((paths, component) => {
       if (!result) {
         if (component != null) {
-          paths = [].concat(paths)
+          paths = typeof paths === 'string' ? [paths] : paths
 
           for (let i = 0; i < paths.length; i++) {
             const path = paths[i]
-            const params = get(path).match(subj)
+            let params
+
+            if (path === subj) {
+              params = {}
+            } else {
+              params = get(path).match(subj)
+            }
 
             if (params) {
               result = component(params)
+
+              break
             }
           }
         } else {
@@ -157,20 +168,20 @@ export default () => {
     }
   }
 
-  const link = (path, params) => get(path).reverse(params)
-
-  const get = (path) => {
-    let compiled
-
-    if (cache[path] != null) {
-      compiled = cache[path]
-    } else {
-      compiled = compile(path)
-
-      cache[path] = compiled
+  const link = (path, params) => {
+    if (!path.startsWith(':') && !path.includes('/:')) {
+      return path
     }
 
-    return compiled
+    return get(path).reverse(params)
+  }
+
+  const get = (path) => {
+    if (cache[path] == null) {
+      cache[path] = compile(path)
+    }
+
+    return cache[path]
   }
 
   return {route, link}
