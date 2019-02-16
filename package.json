@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/router",
-  "version": "17.3.2",
+  "version": "17.3.3",
   "description": "A module to do routing inside your components.",
   "main": "main.mjs",
   "module": "main.mjs",
