@@ -42,21 +42,25 @@ const compile = (path) => {
 
     const params = {}
 
-    for (let i = 0; i < parts.length; i++) {
+    let i = -1
+
+    const reduceRemainder = (acc, p, j) => {
+      if (j > i) {
+        if (p.value != null || p.required) {
+          return acc + 1
+        }
+      }
+
+      return acc
+    }
+
+    while (++i < parts.length) {
       const part = parts[i]
 
       if (part.value == null) {
         if (path[0] == null && part.required) return null
 
-        const remainder = parts.reduce((acc, p, j) => {
-          if (j > i) {
-            if (p.value != null || p.required) {
-              return acc + 1
-            }
-          }
-
-          return acc
-        }, 0)
+        const remainder = parts.reduce(reduceRemainder, 0)
 
         let deleteCount = path.length - remainder
 
@@ -91,7 +95,9 @@ const compile = (path) => {
     const path = []
     let multiple = false
 
-    for (let i = 0; i < parts.length; i++) {
+    let i = -1
+
+    while (++i < parts.length) {
       const part = parts[i]
 
       if (part.value != null) {
@@ -137,7 +143,9 @@ export default () => {
         if (component != null) {
           paths = typeof paths === 'string' ? [paths] : paths
 
-          for (let i = 0; i < paths.length; i++) {
+          let i = -1
+
+          while (++i < paths.length) {
             const path = paths[i]
             let params
 
