@@ -20,7 +20,7 @@
   "homepage": "https://github.com/erickmerchant/router#readme",
   "devDependencies": {
     "@erickmerchant/lint": "^1.10.3",
-    "esm": "^3.2.7",
+    "esm": "^3.2.9",
     "tape": "^4.10.0"
   },
   "dependencies": {}
