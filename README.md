@@ -1,6 +1,8 @@
 # @erickmerchant/router
 
-A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). It does not provide history api listening and dispatching. For that you'll have to use something like [history](https://npmjs.com/package/history).
+A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). It does not provide history api listening and dispatching.
+
+## Example
 
 ``` javascript
 /* component.js */
