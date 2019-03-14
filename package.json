@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/erickmerchant/router#readme",
   "devDependencies": {
-    "@erickmerchant/lint": "^2.1.0",
+    "@erickmerchant/lint": "^2.2.0",
     "eslint": "^5.15.1",
-    "esm": "^3.2.14",
+    "esm": "^3.2.16",
     "tape": "^4.10.0"
   },
   "dependencies": {},
