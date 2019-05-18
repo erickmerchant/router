@@ -21,7 +21,7 @@
   "devDependencies": {
     "@erickmerchant/lint": "^2.3.2",
     "eslint": "^5.16.0",
-    "esm": "3.2.22",
+    "esm": "^3.2.25",
     "tape": "^4.10.0"
   },
   "dependencies": {},
