@@ -8,23 +8,23 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 /* component.js */
 
 import router from '@erickmerchant/router'
-import {html} from '@erickmerchant/framework'
+import {view} from '@erickmerchant/framework'
 
-const {body, h1, a} = html
+const {app, heading, error} = view
 const {route, link} = router()
 
-module.exports = () => {
-  return body(
+module.exports = (state) => {
+  return app`<body>${
     route(state.location, (on) => {
-      on('page/a', () => h1(a({href: link('page/:id', {id: 'a'})}, 'Page A')))
+      on('page/a', () => heading`<h1><a href=${link('page/:id', {id: 'a'})}>${'Page A'}</a></h1>`)
 
-      on('page/b', () => h1(a({href: link('page/:id', {id: 'b'})}, 'Page B')))
+      on('page/b', () => heading`<h1><a href=${link('page/:id', {id: 'b'})}>${'Page B'}</a></h1>`)
 
-      on('page/:id', (params) => h1(a({href: link('page/:id', {id: params.id})}, `Page ${params.id}`)))
+      on('page/:id', (params) => heading`<h1><a href=${link('page/:id', {id: params.id})}>${`Page ${params.id}`}</a></h1>`)
 
-      on(() => h1('Page Not Found'))
+      on(() => error`<h1>${'Page Not Found'}</h1>`)
     })
-  )
+  }</body>`
 }
 ```
 
