@@ -22,7 +22,7 @@
     "@erickmerchant/lint": "^3.0.0",
     "eslint": "^6.0.1",
     "esm": "^3.2.25",
-    "tape": "^4.10.2"
+    "tape": "^4.11.0"
   },
   "dependencies": {},
   "engines": {
