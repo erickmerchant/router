@@ -28,7 +28,7 @@ module.exports = (state) => {
 }
 ```
 
-A route can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props for the object in the case of [link](#link) or populate params in the case of [component](#component). Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
+A route can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props from the object in the case of `link` or populate params in the case of `on`. Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
 
 |          | required | multiple
 |---       |---       |---
