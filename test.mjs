@@ -22,7 +22,7 @@ test('test main - link', (t) => {
 const component = (params) => params
 
 test('test main - route', (t) => {
-  t.plan(8)
+  t.plan(10)
 
   const {route} = main()
 
@@ -34,6 +34,14 @@ test('test main - route', (t) => {
     on(['/test3/baz', '/test3/qux'], () => 'baz or qux')
 
     on('/test3/:foo', component)
+
+    on('/test4/:foo', ({foo}) => {
+      foo = Number(foo)
+
+      if (!Number.isNaN(foo)) return foo
+    })
+
+    on('/test4/:foo', ({foo}) => foo)
 
     on(() => 'not found')
   }
@@ -53,6 +61,10 @@ test('test main - route', (t) => {
   t.equals(route('/test3/x/y', config), 'not found')
 
   t.equals(route('/test3', config), 'not found')
+
+  t.equals(route('/test4/123', config), 123)
+
+  t.equals(route('/test4/abc', config), 'abc')
 })
 
 test('test main - link to route', (t) => {

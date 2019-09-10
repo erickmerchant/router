@@ -139,7 +139,7 @@ export default () => {
     let result
 
     config((paths, component) => {
-      if (!result) {
+      if (result == null) {
         if (component != null) {
           paths = typeof paths === 'string' ? [paths] : paths
 
