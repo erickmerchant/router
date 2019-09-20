@@ -10,7 +10,7 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 import router from '@erickmerchant/router'
 import {view} from '@erickmerchant/framework'
 
-const {app, heading, error} = view
+const {app, heading, error} = view()
 const {route, link} = router()
 
 module.exports = (state) => {
