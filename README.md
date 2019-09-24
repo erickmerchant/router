@@ -13,8 +13,7 @@ import {view} from '@erickmerchant/framework'
 const {app, heading, error} = view()
 const {route, link} = router()
 
-module.exports = (state) => {
-  return app`<body>${
+module.exports = (state) => app`<body>${
     route(state.location, (on) => {
       on('page/a', () => heading`<h1><a href=${link('page/:id', {id: 'a'})}>${'Page A'}</a></h1>`)
 
@@ -25,7 +24,6 @@ module.exports = (state) => {
       on(() => error`<h1>${'Page Not Found'}</h1>`)
     })
   }</body>`
-}
 ```
 
 A route can contain multiple segments separated by slashes. Segments can begin with a colon. Those are replaced by props from the object in the case of `link` or populate params in the case of `on`. Colon prefixed segments can have a \*, \+, or ? modifier at the end, which change whether it is required and whether it consumes multiple segments.
