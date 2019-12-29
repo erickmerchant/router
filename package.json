@@ -1,10 +1,27 @@
 {
   "name": "@erickmerchant/router",
-  "description": "A module to do routing inside your components.",
   "version": "17.5.1",
-  "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "description": "A module to do routing inside your components.",
+  "homepage": "https://github.com/erickmerchant/router#readme",
   "bugs": {
     "url": "https://github.com/erickmerchant/router/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erickmerchant/router.git"
+  },
+  "license": "ISC",
+  "author": "Erick Merchant <erickmerchant@gmail.com>",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "main.js"
+  ],
+  "main": "main.mjs",
+  "module": "main.mjs",
+  "scripts": {
+    "pretest": "lint '**/*.{js,mjs}'",
+    "test": "node -r esm test.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -16,22 +33,5 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "files": [
-    "LICENSE",
-    "README.md",
-    "main.js"
-  ],
-  "homepage": "https://github.com/erickmerchant/router#readme",
-  "license": "ISC",
-  "main": "main.mjs",
-  "module": "main.mjs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/erickmerchant/router.git"
-  },
-  "scripts": {
-    "pretest": "lint '**/*.{js,mjs}'",
-    "test": "node -r esm test.mjs"
   }
 }
