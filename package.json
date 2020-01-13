@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/router",
-  "version": "17.5.1",
+  "version": "17.5.2",
   "description": "A module to do routing inside your components.",
   "homepage": "https://github.com/erickmerchant/router#readme",
   "bugs": {
