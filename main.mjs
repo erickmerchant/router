@@ -131,7 +131,7 @@ const reverse = (parts, params) => {
   return path.join('/')
 }
 
-export default (cache = {}) => {
+export const router = (cache = {}) => {
   const route = (subj, config) => {
     let defaultComponent
     let result

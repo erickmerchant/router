@@ -7,7 +7,7 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 ``` javascript
 /* component.js */
 
-import router from '@erickmerchant/router'
+import {router} from '@erickmerchant/router'
 import {view} from '@erickmerchant/framework'
 
 const {app, heading, error} = view()

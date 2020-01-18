@@ -1,10 +1,10 @@
 import test from 'tape'
-import main from '.'
+import {router} from '.'
 
-test('test main - link', (t) => {
+test('test router - link', (t) => {
   t.plan(6)
 
-  const {link} = main()
+  const {link} = router()
 
   t.equals(link('tests/:test', {test: 123}), 'tests/123')
 
@@ -21,10 +21,10 @@ test('test main - link', (t) => {
 
 const component = (params) => params
 
-test('test main - route', (t) => {
+test('test router - route', (t) => {
   t.plan(10)
 
-  const {route} = main()
+  const {route} = router()
 
   const config = (on) => {
     on('/test1/:foo/:bar*', component)
@@ -67,10 +67,10 @@ test('test main - route', (t) => {
   t.equals(route('/test4/abc', config), 'abc')
 })
 
-test('test main - link to route', (t) => {
+test('test router - link to route', (t) => {
   t.plan(26)
 
-  const {link, route} = main()
+  const {link, route} = router()
 
   const config = (on) => {
     on('test1/:foo/:bar*', component)
