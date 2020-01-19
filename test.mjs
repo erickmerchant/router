@@ -1,5 +1,6 @@
 import test from 'tape'
 import {router} from '.'
+import {route} from './wildcard.mjs'
 
 test('test router - link', (t) => {
   t.plan(6)
@@ -157,4 +158,28 @@ test('test router - link to route', (t) => {
   t.deepEquals(route(link('test15/:foo*/baz', {foo: []}), config), {foo: []})
 
   t.deepEquals(route(link('test16/:foo+/baz', {foo: ['a', 'b', 'c']}), config), {foo: ['a', 'b', 'c']})
+})
+
+test('test router - route', (t) => {
+  t.plan(4)
+
+  const config = (on) => {
+    on('/test1/*', component)
+
+    on('/test2/**', component)
+
+    on('/test3/*/foo', component)
+
+    on('/test4/**/foo', component)
+
+    on(() => 'not found')
+  }
+
+  t.deepEquals(route('/test1/123', config), ['123'])
+
+  t.deepEquals(route('/test2/1/2/3', config), [['1', '2', '3']])
+
+  t.deepEquals(route('/test3/123/foo', config), ['123'])
+
+  t.deepEquals(route('/test4/1/2/3/foo', config), [['1', '2', '3']])
 })

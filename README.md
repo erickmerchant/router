@@ -13,7 +13,7 @@ import {view} from '@erickmerchant/framework'
 const {app, heading, error} = view()
 const {route, link} = router()
 
-module.exports = (state) => app`<body>${
+export const component = (state) => app`<body>${
     route(state.location, (on) => {
       on('page/a', () => heading`<h1><a href=${link('page/:id', {id: 'a'})}>${'Page A'}</a></h1>`)
 

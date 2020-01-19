@@ -1,34 +1,17 @@
 const compile = (path) => {
   const parts = path.split('/').map((part) => {
-    if (part.startsWith(':')) {
-      switch (true) {
-        case part.endsWith('*'):
-          return {
-            required: false,
-            multiple: true,
-            key: part.substring(1, part.length - 1)
-          }
+    const first = part.charAt(0)
+    const last = part.charAt(part.length - 1)
+    const isStar = last === '*'
+    const isPlus = last === '+'
+    const isQuestion = last === '?'
+    const hasModifier = isStar || isPlus || isQuestion
 
-        case part.endsWith('+'):
-          return {
-            required: true,
-            multiple: true,
-            key: part.substring(1, part.length - 1)
-          }
-
-        case part.endsWith('?'):
-          return {
-            required: false,
-            multiple: false,
-            key: part.substring(1, part.length - 1)
-          }
-
-        default:
-          return {
-            required: true,
-            multiple: false,
-            key: part.substring(1)
-          }
+    if (first === ':') {
+      return {
+        required: isPlus || !hasModifier,
+        multiple: isStar || isPlus,
+        key: part.substring(1, part.length - (hasModifier ? 1 : 0))
       }
     }
 
@@ -175,7 +158,7 @@ export const router = (cache = {}) => {
   }
 
   const link = (path, params) => {
-    if (!path.startsWith(':') && !path.includes('/:')) {
+    if (!path.charAt(0) === ':' && !path.includes('/:')) {
       return path
     }
 
