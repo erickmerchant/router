@@ -15,7 +15,8 @@
   "files": [
     "LICENSE",
     "README.md",
-    "main.mjs"
+    "main.mjs",
+    "wildcard.mjs"
   ],
   "main": "main.mjs",
   "module": "main.mjs",
