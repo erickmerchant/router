@@ -43,12 +43,12 @@ const match = (route, input) => {
 }
 
 export const route = (input, config) => {
-  let defaultComponent
+  let defaultCb
   let result
 
-  config((routes, component) => {
+  config((routes, cb) => {
     if (result == null) {
-      if (component != null) {
+      if (cb != null) {
         routes = typeof routes === 'string' ? [routes] : routes
 
         let i = -1
@@ -64,13 +64,13 @@ export const route = (input, config) => {
           }
 
           if (params) {
-            result = component(params)
+            result = cb(params)
 
             break
           }
         }
       } else {
-        defaultComponent = routes
+        defaultCb = routes
       }
     }
   })
@@ -79,7 +79,25 @@ export const route = (input, config) => {
     return result
   }
 
-  if (defaultComponent != null) {
-    return defaultComponent()
+  if (defaultCb != null) {
+    return defaultCb()
   }
+}
+
+export const link = (strs, ...vars) => {
+  let output = ''
+
+  for (let i = 0; i < strs.length; i++) {
+    output += strs[i]
+
+    if (i < vars.length) {
+      if (Array.isArray(vars[i])) {
+        output += vars[i].join('/')
+      } else {
+        output += vars[i]
+      }
+    }
+  }
+
+  return output
 }
