@@ -8,20 +8,19 @@ A module to do routing inside your components. Meant to be used with [@erickmerc
 /* component.js */
 
 import {router} from '@erickmerchant/router'
-import {view} from '@erickmerchant/framework'
+import {html} from '@erickmerchant/framework'
 
-const {app, heading, error} = view()
 const {route, link} = router()
 
-export const component = (state) => app`<body>${
+export const component = (state) => html`<body>${
     route(state.location, (on) => {
-      on('page/a', () => heading`<h1><a href=${link('page/:id', {id: 'a'})}>${'Page A'}</a></h1>`)
+      on('page/a', () => html`<h1><a href=${link('page/:id', {id: 'a'})}>${'Page A'}</a></h1>`)
 
-      on('page/b', () => heading`<h1><a href=${link('page/:id', {id: 'b'})}>${'Page B'}</a></h1>`)
+      on('page/b', () => html`<h1><a href=${link('page/:id', {id: 'b'})}>${'Page B'}</a></h1>`)
 
-      on('page/:id', (params) => heading`<h1><a href=${link('page/:id', {id: params.id})}>${`Page ${params.id}`}</a></h1>`)
+      on('page/:id', (params) => html`<h1><a href=${link('page/:id', {id: params.id})}>${`Page ${params.id}`}</a></h1>`)
 
-      on(() => error`<h1>${'Page Not Found'}</h1>`)
+      on(() => html`<h1>${'Page Not Found'}</h1>`)
     })
   }</body>`
 ```
