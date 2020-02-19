@@ -1,6 +1,6 @@
 # @erickmerchant/router
 
-A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). It does not provide history api listening and dispatching.
+A module to do routing inside your components. Meant to be used with [@erickmerchant/framework](https://github.com/erickmerchant/framework). Does not do anything with the history API for you.
 
 ## Example
 
