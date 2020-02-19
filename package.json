@@ -1,7 +1,7 @@
 {
   "name": "@erickmerchant/router",
   "version": "18.2.0",
-  "description": "A module to do routing inside your components.",
+  "description": "A router for @erickmerchant/framework.",
   "homepage": "https://github.com/erickmerchant/router#readme",
   "bugs": {
     "url": "https://github.com/erickmerchant/router/issues"
@@ -26,7 +26,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@erickmerchant/lint": "^4.1.0",
+    "@erickmerchant/lint": "^4.1.1",
     "babel-eslint": "^10.0.3",
     "esm": "^3.2.25",
     "tape": "^4.13.0"
