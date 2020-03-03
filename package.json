@@ -29,7 +29,7 @@
     "@erickmerchant/lint": "^4.1.1",
     "babel-eslint": "^10.1.0",
     "esm": "^3.2.25",
-    "tape": "^4.13.0"
+    "tape": "^4.13.2"
   },
   "engines": {
     "node": ">=12"
