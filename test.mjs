@@ -1,5 +1,5 @@
 import test from 'tape'
-import {router} from '.'
+import {router} from './main.mjs'
 import {route, link} from './wildcard.mjs'
 
 test('test router - link', (t) => {
