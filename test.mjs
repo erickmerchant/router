@@ -3,8 +3,6 @@ import {router} from './main.mjs'
 import {route, link} from './wildcard.mjs'
 
 test('test router - link', (t) => {
-  t.plan(6)
-
   const {link} = router()
 
   t.equals(link('tests/:test', {test: 123}), 'tests/123')
@@ -18,13 +16,13 @@ test('test router - link', (t) => {
   t.equals(link('tests/:foo/:bar*', {foo: 123, bar: ['a', 'b', 'c']}), 'tests/123/a/b/c')
 
   t.equals(link('tests/:foo?/:bar+', {foo: 123, bar: ['a', 'b', 'c']}), 'tests/123/a/b/c')
+
+  t.end()
 })
 
 const component = (params) => params
 
 test('test router - route', (t) => {
-  t.plan(10)
-
   const {route} = router()
 
   const config = (on) => {
@@ -66,11 +64,11 @@ test('test router - route', (t) => {
   t.equals(route('/test4/123', config), 123)
 
   t.equals(route('/test4/abc', config), 'abc')
+
+  t.end()
 })
 
 test('test router - link to route', (t) => {
-  t.plan(26)
-
   const {link, route} = router()
 
   const config = (on) => {
@@ -158,11 +156,11 @@ test('test router - link to route', (t) => {
   t.deepEquals(route(link('test15/:foo*/baz', {foo: []}), config), {foo: []})
 
   t.deepEquals(route(link('test16/:foo+/baz', {foo: ['a', 'b', 'c']}), config), {foo: ['a', 'b', 'c']})
+
+  t.end()
 })
 
 test('test wildcard - route and link', (t) => {
-  t.plan(8)
-
   const config = (on) => {
     on('/test1/*', component)
 
@@ -190,4 +188,6 @@ test('test wildcard - route and link', (t) => {
   t.deepEquals(link`/test3/${'123'}/foo`, '/test3/123/foo')
 
   t.deepEquals(link`/test4/${['1', '2', '3']}/foo`, '/test4/1/2/3/foo')
+
+  t.end()
 })
