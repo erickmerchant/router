@@ -28,7 +28,7 @@
   "devDependencies": {
     "@erickmerchant/lint": "^4.1.2",
     "esm": "^3.2.25",
-    "tape": "^4.13.2"
+    "tape": "^5.0.0"
   },
   "engines": {
     "node": ">=12"
